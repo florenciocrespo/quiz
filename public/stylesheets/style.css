@@ -8,3 +8,10 @@ body                 { font: 16px Georgia, serif; }
 header, nav, section { background: #eee; }
 footer               { background: #eee; text-align: center;}
 nav span             { margin: 0px 10px 0px 0px;}
+
+.horizontal {
+  border:1px solid white;
+  background-color:white;
+  width:150px;
+  height:150px;
+}
