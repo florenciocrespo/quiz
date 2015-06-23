@@ -1,2 +1,2 @@
 # quiz
-proyecto quiz
+proyecto quiz esqueleto
