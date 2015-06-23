@@ -1,3 +1,3 @@
 # quiz
 proyecto quiz 
-rama master
+rama creditos
