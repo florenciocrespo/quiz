@@ -9,7 +9,7 @@
     "node": "0.12.x",
     "npm": "2.2.x"
   },
-  "devdependencies":{
+  "devDependencies":{
     "sqlite3": "^3.0.8"
     },
   "dependencies": {

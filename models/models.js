@@ -12,7 +12,7 @@ var dialect = (url[1]||null);
 var port    = (url[5]||null);
 var host    = (url[4]||null);
 var storage = process.env.DATABASE_STORAGE;
-
+console.log(DB_name+" "+user+" "+pwd+" "+protocol+" "+dialect);
 
 var Sequelize = require('sequelize');
 
@@ -31,9 +31,9 @@ var sequelize = new Sequelize(DB_name,user,pwd,
                     );
 
 // Usar BBDD SQLite:
-var sequelize = new Sequelize(null, null, null, 
+/*var sequelize = new Sequelize(null, null, null, 
                        {dialect: "sqlite", storage: "quiz.sqlite"}
-                    );
+                    );*/
 
 // Importar la definicion de la clase Quiz desde quiz.js
 var quiz_path = path.join(__dirname,'quiz');
@@ -42,15 +42,20 @@ var Quiz = sequelize.import(quiz_path);
 
 exports.Quiz = Quiz;
 
+
+
 // sequelize.sync() crea las tablas de datos definidas en el modelo
-sequelize.sync().success(function() {
+sequelize.sync().then(function() {
   // success(..) ejecuta el manejador una vez creadas las tabas de la DB
-  Quiz.count().success(function (count){
+  Quiz.count().then(function (count){
     if(count === 0) {   // la tabla se inicializa solo si está vacía
       Quiz.create({ pregunta: '¿Cual es la capital de Italia?',
-      	            respuesta: 'Roma'
-      	         })
-      .success(function(){console.log('Base de datos inicializada')});
+                    respuesta: 'Roma'
+                 });
+      Quiz.create({ pregunta: '¿Cual es la capital de Portugal?',
+                    respuesta: 'Lisboa'
+                 })
+      .then(function(){console.log('Base de datos inicializada .')});
     };
   });
 });
