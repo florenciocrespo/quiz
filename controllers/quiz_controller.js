@@ -1,7 +1,7 @@
 var models = require('../models/models.js');
 //autoload
 exports.load = function(req, res, next, quizId){
-  models.Quiz.find(quizId).then(
+  models.Quiz.findById(quizId).then(
     function(quiz){
       if(quiz){
         req.quiz = quiz;
@@ -37,4 +37,9 @@ exports.answer = function(req, res){
     } 
       res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado });
   
+};
+
+//GET /autor
+exports.autor = function(req,res) {
+  res.render('autor',{ quiz: req.quiz, errors: []});
 };
