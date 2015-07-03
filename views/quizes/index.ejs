@@ -1,5 +1,15 @@
+<form method="get" action="/quizes/">
+  <h3>Filtrar preguntas por texto</h3>
+  <input type="text" name="search" placeholder="Escriba aqui">
+  <input type="submit" value="Enviar">
+</form>
+
+
 <table>
-  <% var i; for (i=0; i < quizes.length; i++) { %>        
+<% if (quizes.length == 0) { %>
+  <tr><td>No hay ninguna pregunta para mostrar. Prueba a realizar otra búsqueda o crea mas preguntas.</td></tr>
+<% } else {
+   var i; for (i=0; i < quizes.length; i++) { %>        
      <tr>
 	<td><%= quizes[i].tema %></td>
 	 <td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
@@ -12,10 +22,7 @@
         </form>
        </td> 
      </tr> 
-  <% } %>
- <form method="get" action="/quizes">
-      <input type="text" name="search" value="texto_a_buscar" />
-      <input type="submit" value="Enviar">
-     </form>
+  <% } }%>
+ 
   </table><p>
 <a href="/quizes/new"><button type="button">Crear pregunta</button></a> 
