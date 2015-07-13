@@ -2,14 +2,25 @@ var express = require('express');
 var router = express.Router();
 
 var quizController = require('../controllers/quiz_controller');
+var commentController 	= require('../controllers/comment_controller');
+var sessionController 	= require('../controllers/session_controller');
+var statsController		= require('../controllers/stats_controller');
+var authorController	= require('../controllers/author_controller');
+var dbController		= require('../controllers/db_controller');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'QUIZ', errors: [] });
 });
 // Autoload de comandos con :quizId
-router.param('quizId', quizController.load);
+router.param('quizId'       , quizController.load);
+router.param('commentId'	, commentController.load); 
+router.get('/author'		, authorController.authors);
+router.get('/login'			, sessionController.new); // formulario login
+router.post('/login'		, sessionController.create); // crear sesión
+router.get('/logout'		, sessionController.destroy);
 
+	
 // Definición de rutas de /quizes
 router.get('/quizes',                      quizController.index);
 router.get('/quizes/:quizId(\\d+)',        quizController.show);
@@ -19,6 +30,16 @@ router.post('/quizes/create',              quizController.create);
 router.get('/quizes/:quizId(\\d+)/edit',   quizController.edit);
 router.put('/quizes/:quizId(\\d+)',        quizController.update);
 router.delete('/quizes/:quizId(\\d+)',     quizController.destroy);
-router.get('/autor',                       quizController.autor);
+
+router.get('/temas'						, quizController.showtemas);
+router.get('/temas/:tema'				, quizController.showbytema);
+
+router.get('/quizes/:quizId(\\d+)/comments/new'	, sessionController.loginRequired, commentController.new);
+router.post('/quizes/:quizId(\\d+)/comments'	, sessionController.loginRequired, commentController.create);
+router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish'	, sessionController.loginRequired, commentController.publish);
+
+router.get('/estadisticas'	, statsController.show);
+router.get('/db' , dbController.show);
+
 
 module.exports = router;

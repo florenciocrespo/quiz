@@ -12,8 +12,8 @@ var dialect = (url[1]||null);
 var port    = (url[5]||null);
 var host    = (url[4]||null);
 var storage = process.env.DATABASE_STORAGE;
-console.log(DB_name+" "+user+" "+pwd+" "+protocol+" "+dialect);
-
+//console.log(DB_name+" "+user+" "+pwd+" "+protocol+" "+dialect);
+//cargar modelo ORM
 var Sequelize = require('sequelize');
 
 //Usar BBDD SQlite o Postgres
@@ -38,9 +38,16 @@ var sequelize = new Sequelize(DB_name,user,pwd,
 // Importar la definicion de la clase Quiz desde quiz.js
 var quiz_path = path.join(__dirname,'quiz');
 var Quiz = sequelize.import(quiz_path);
-//var Quiz = sequelize.import(path.join(__dirname,'quiz'));
 
+var comment_path  = path.join(__dirname,'comment');
+var Comment       = sequelize.import(comment_path);
+
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
+
+//exportar tablas
 exports.Quiz = Quiz;
+exports.Comment = Comment;
 
 
 

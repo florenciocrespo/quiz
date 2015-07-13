@@ -1,28 +1,35 @@
-<form method="get" action="/quizes/">
-  <h3>Filtrar preguntas por texto</h3>
-  <input type="text" name="search" placeholder="Escriba aqui">
-  <input type="submit" value="Enviar">
+<form method="get" action="/quizes?search=texto_a_buscar">
+  Introduzca contenido a buscar: 
+  <input type="text" name="search" value="Texto a buscar"/>
+  <input type="submit" value="Buscar">
 </form>
-
-
-<table>
-<% if (quizes.length == 0) { %>
-  <tr><td>No hay ninguna pregunta para mostrar. Prueba a realizar otra búsqueda o crea mas preguntas.</td></tr>
-<% } else {
-   var i; for (i=0; i < quizes.length; i++) { %>        
-     <tr>
-	<td><%= quizes[i].tema %></td>
-	 <td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
-         <td><a href="quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
-         <td>
-         <form method="post" action="quizes/<%= quizes[i].id %>?_method=delete">
-          <button type="submit" onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');">
-            borrar
-          </button>
-        </form>
-       </td> 
-     </tr> 
-  <% } }%>
- 
-  </table><p>
-<a href="/quizes/new"><button type="button">Crear pregunta</button></a> 
+<br>
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Tema</th>
+        <th>Pregunta</th>
+      </tr>
+    </thead>
+    <tbody>
+  <% var i; for (i=0; i < quizes.length; i++) { %>
+    <tr>
+      <td><a name="<%= quizes[i].tema %>" href="temas/<%= quizes[i].tema %>"><%= quizes[i].tema %> </a></td>
+      <td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %> </a></td>
+      <% if(session.user){%>
+        <td><a href="quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
+        <td>
+          <form method="post" action="quizes/<%= quizes[i].id %>?_method=delete">
+            <button type="submit" onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');">borrar</button>
+          </form>
+        </td>
+      <%}%>
+    </tr>
+  <% } %>
+  </table>
+</div>
+<br>
+<% if(session.user){%>
+  <a href="/quizes/new"><button type="button">Crear pregunta</button></a>
+<%}%>
